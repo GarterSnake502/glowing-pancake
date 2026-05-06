@@ -15,8 +15,6 @@
 </html>
 
 <script>
-    alert("Starting script");
-
     const pts = [
         { lat: 39.8519, lon: -86.3945 },
         { lat: 40.0, lon: -86.3946 }
@@ -25,9 +23,10 @@
     var newObjects = '<a-entity material=\'color: green\' geometry=\'primitive: box\' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>';
     const scene = document.querySelector('a-scene');
     scene.insertAdjacentHTML('beforeend', newObjects);
-    //await delay(2000);
-    const rotation = document.querySelector('a-camera').getAttribute('rotation');
-    const message = `Camera rotation: x=${rotation.x}, y=${rotation.y}, z=${rotation.z}`;
-    alert(message);
-    alert("Finished script")
+    
+    document.addEventListener('click', function () {
+        const rotation = document.querySelector('a-camera').getAttribute('rotation');
+        const message = `Camera rotation: x=${rotation.x}, y=${rotation.y}, z=${rotation.z}`;
+        alert(message);
+    });
 </script>
