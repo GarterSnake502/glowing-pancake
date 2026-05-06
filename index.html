@@ -24,7 +24,9 @@
     var newObjects = '<a-entity material=\'color: green\' geometry=\'primitive: box\' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>';
     const scene = document.querySelector('a-scene');
     scene.insertAdjacentHTML('beforeend', newObjects);
-    await delay(2000);
+    //await delay(2000);
     const rotation = document.querySelector('a-camera').getAttribute('rotation');
-    OS.alert(rotation);
+    const message = `Camera rotation: x=${rotation.x}, y=${rotation.y}, z=${rotation.z}`;
+    alert(message);
+    alert("Finished script")
 </script>
