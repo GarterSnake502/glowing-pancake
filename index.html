@@ -9,7 +9,7 @@
 <body>
     <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
         <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-        <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>
+        <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 39.951938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>
     </a-scene>
 </body>
 </html>
@@ -19,7 +19,7 @@
         { lat: 39.8519, lon: -86.3945 },
         { lat: 40.0, lon: -86.3946 }
     ];
-    var newObjects = '<a-entity material=\'color: red\' geometry=\'primitive: box\' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>';
+    var newObjects = '<a-entity material=\'color: green\' geometry=\'primitive: box\' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>';
     const scene = document.querySelector('a-scene');
     scene.insertAdjacentHTML('beforeend', newObjects);
 </script>
