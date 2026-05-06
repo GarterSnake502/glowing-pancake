@@ -13,4 +13,29 @@
     </a-scene>
 </body>
 </html>
-<script src="ARPoC.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const pts = [
+            { lat: 39.8519, lon: -86.3945 },
+            { lat: 40.0, lon: -86.3946 }
+        ];
+
+        const scene = document.querySelector("a-scene");
+
+        pts.forEach(p => {
+            const el = document.createElement("a-entity");
+
+            el.setAttribute("geometry", "primitive: circle; radius: 2");
+            el.setAttribute("material", "color: red");
+
+            // Place at GPS coords
+            el.setAttribute("gps-new-entity-place", `latitude: ${p.lat}; longitude: ${p.lon}`);
+
+            // Rotate so it's flat on the ground (at your feet)
+            el.setAttribute("rotation", "-90 0 0");
+
+            scene.appendChild(el);
+        });
+    });
+</script>
