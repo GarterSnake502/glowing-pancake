@@ -16,7 +16,7 @@
         Distance: 0m
     </div>
     <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
-        ↑
+        ↓
     </div>
 </body>
 </html>
@@ -24,11 +24,13 @@
 <script>
 
     const target = { lat: 39.8519, lon: -86.3945, elev: 0, color: "green" }
-    var currentPos = null;
+    var g_gps = {
+        lat: 0, lon: 0
+    };
 
     // fetch phone GPS--will want to switch to g_gps in final
     navigator.geolocation.watchPosition(pos => {
-        currentPos = {
+        g_gps = {
             lat: pos.coords.latitude,
             lon: pos.coords.longitude
         };
@@ -38,12 +40,12 @@
 
     // update distance every 500 milliseconds
     const updateARDistanceLabelInterval = setInterval(() => {
-        var pos = getPos();
+        var pos = g_gps;
         updateARDistanceLabel(getARDistance(pos.lat, pos.lon, target.lat, target.lon));
     }, 500);
     // update arrow every 250 milliseconds
     const updateARArrowLabelInterval = setInterval(() => {
-        var pos = getPos();
+        var pos = g_gps;
         var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
         var deviceAngle = document.querySelector('a-camera').getAttribute('rotation').y;
         var arrowAngle = objectAngle - deviceAngle;
@@ -57,9 +59,10 @@
     }
 
     function createARPoint(lat, lon, elev, col = "red", relativeElevation = true) {
-        var newObjects = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="10 10 10"></a-entity>`;
+        var newObject = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="10 10 10"></a-entity>`;
+        console.log(newObject);
         const scene = document.querySelector('a-scene');
-        scene.insertAdjacentHTML('beforeend', newObjects);
+        scene.insertAdjacentHTML('beforeend', newObject);
     }
 
     function getARDistance(lat, lon, plat, plon) {
@@ -75,19 +78,7 @@
     function ee(id) {
         return document.getElementById(id);
     }
-    // function already possessed by DiamondMaps, replace with builtin GPS
-    function getPos() {
-        var latitude = 0;
-        var longitude = 0;
-        navigator.geolocation.watchPosition(pos => {
-            latitude = pos.coords.latitude;
-            longitude = pos.coords.longitude;
-        });
-        if (latitude == null) { // cannot access GPS
-            ee("distanceLabel").innerText = "GPS Unavailable!";
-        }
-        return { lat: latitude, lon: longitude };
-    }
+   
 
 
     // test-show rotation on touchscreen click
