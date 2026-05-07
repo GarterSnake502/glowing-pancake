@@ -9,21 +9,20 @@
 <body>
     <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
         <a-camera gps-new-camera='gpsMinDistance: 5' rotation-reader></a-camera>
-        <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 39.861938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>
     </a-scene>
 </body>
 </html>
 
 <script>
     const pts = [
-        { lat: 39.8519, lon: -86.3945, elev: 0 },
-        { lat: 40.0, lon: -86.3946, elev: 0 }
+        { lat: 39.8519, lon: -86.3945, elev: 0, color: "green" },
+        { lat: 40.0, lon: -86.3946, elev: 0, color: "red" }
     ];
     var relativeElevation = true; // if false, will measure above sea level (10-20 meters off on phone!)
 
     // tests procedural adding of objects (will be useful for adding points)
     for (p of pts) {
-        var newObjects = `<a-entity material=\'color: green\' geometry=\'primitive: box\' ${() ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${p.lat}; longitude: ${p.lon}" position="0 ${p.elev} 0" scale="10 10 10"></a-entity>`;
+        var newObjects = `<a-entity material=\'color: ${p.color}\' geometry=\'primitive: box\' ${() ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${p.lat}; longitude: ${p.lon}" position="0 ${p.elev} 0" scale="10 10 10"></a-entity>`;
         const scene = document.querySelector('a-scene');
         scene.insertAdjacentHTML('beforeend', newObjects);
     }
