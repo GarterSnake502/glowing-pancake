@@ -15,7 +15,7 @@
     <div id="distanceLabel" style="position: fixed; top:20px; z-index: 999; color: red; font-size: 20px;">
         Distance: 0m
     </div>
-    <div id="logLabel" style="position: fixed; top:30px; z-index: 999; color: red; font-size: 20px;">
+    <div id="logLabel" style="position: fixed; top:40px; z-index: 999; color: red; font-size: 20px;">
         Log
     </div>
     <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
@@ -67,12 +67,12 @@
 
     function getARDistance(lat, lon, plat, plon) {
         var dist = Math.sqrt((plat - lat) ** 2 + (plon - lon) ** 2);
-        return dist;
+        return (dist * 111139); // multiple by 111139 to convert lat/lon to degrees
     }
 
     function updateARDistanceLabel() {
         var pos = g_gps;
-        ee("distanceLabel").innerText = (getARDistance(pos.lat, pos.lon, target.lat, target.lon));
+        ee("distanceLabel").innerText = "Distance: " + (getARDistance(pos.lat, pos.lon, target.lat, target.lon));
     }
     // get actual north, so arrow is accurate
     var northOrientation = 0;
