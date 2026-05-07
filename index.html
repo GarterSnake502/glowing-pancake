@@ -26,6 +26,7 @@
 
 <script>
 
+
     // sample point. Change latitude and longitude to demo
     const target = createARPoint(39.85208, -86.39334, 0, 10, "green");
 
@@ -38,9 +39,7 @@
             lat: pos.coords.latitude,
             lon: pos.coords.longitude
         };
-        if (g_gps.lat != null) {
-            updateARDistanceLabel();
-        }
+        updateARDistanceLabel();
         //ee("logLabel").insertAdjacentText('beforeend', ("Updated position: " + g_gps.lat + "  " + g_gps.lon)); // log changes onscreen (helpful for mobile)
     });
 
