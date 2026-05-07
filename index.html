@@ -21,22 +21,21 @@
 <script>
 
     const target = { lat: 39.8519, lon: -86.3945, elev: 0, color: "green" }
-    var relativeElevation = true; // if false, will measure above sea level (10-20 meters off on phone!)
 
+    setInterval(() => {
+        var pos = getPos();
+        updateARDistanceLabel(getARDistance(pos.lat, pos.lon, target.lat, target.lon));
+    }, 500);
 
-    function createARPoint(lat, lon, elev, col = "red") {
+    function createARPoint(lat, lon, elev, col = "red", relativeElevation = false) {
         var newObjects = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="10 10 10"></a-entity>`;
         const scene = document.querySelector('a-scene');
         scene.insertAdjacentHTML('beforeend', newObjects);
     }
 
-    const updateDistance = setInterval(() => {
-        var pos = getPos();
-        updateARDistanceLabel(getARDistance(pos.lat, pos.lon, target.lat, target.lon));
-    }, 500);
-
     function getARDistance(lat, lon, plat, plon) {
         var dist = Math.sqrt((plat - lat) ** 2 + (plon - lon) ** 2);
+        return dist;
     }
 
     function updateARDistanceLabel(dist) {
@@ -47,7 +46,7 @@
     function ee(id) {
         return document.getElementById(id);
     }
-    // replace with builtin GPS
+    // function already possessed by DiamondMaps, replace with builtin GPS
     function getPos() {
         var latitude = 0;
         var longitude = 0;
@@ -70,5 +69,6 @@
         alert(message);
     });
 
+    // create sample AR point (will be replaced by manhole)
     createARPoint(target.lat, target.lon, target.elev, "green");
 </script>
