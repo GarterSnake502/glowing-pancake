@@ -27,7 +27,7 @@
 <script>
 
     // sample point. Change latitude and longitude to demo
-    const target = createARPoint(39.85208, -86.39334, 0, "green", 10);
+    const target = createARPoint(39.85208, -86.39334, 0, 10, "green");
 
     // fetch phone GPS when found--will want to switch to g_gps in final
     var g_gps = {
@@ -51,7 +51,7 @@
         }
     }, 250);
     // creates object in <body>, returns its values to store in potential variable (target)
-    function createARPoint(latitude, longitude, elevevation, objSize, color = "red", relElevation = true) {
+    function createARPoint(latitude, longitude, elevation, objSize, color = "red", relElevation = true) {
         var newObject = `<a-entity material=\'color: ${color}\' geometry=\'primitive: box\' ${(relElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${latitude}; longitude: ${longitude}" position="0 ${elevation} 0" scale="${objSize} ${objSize} ${objSize}"></a-entity>`;
         console.log(newObject);
         const scene = document.querySelector('a-scene');
