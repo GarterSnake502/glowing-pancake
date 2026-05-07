@@ -15,6 +15,10 @@
     <div id="distanceLabel" style="position: fixed; top:20px; z-index: 999; color: red; font-size: 20px;">
         Distance: 0m
     </div>
+    <div id="logLabel" style="position: fixed; top:20px; z-index: 999; color: red; font-size: 20px;">
+        
+
+    </div>
     <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
         ↑
     </div>
@@ -34,15 +38,18 @@
             lat: pos.coords.latitude,
             lon: pos.coords.longitude
         };
+        updateARArrowLabel();
+        updateARDistanceLabel();
+        ee("logLabel").insertAdjacentText('beforeend', "Updated position!");
     }, err => {
         ee("distanceLabel").innerText = "GPS Unavailable!";
     });
 
-    // update distance every 500 milliseconds
-    const updateARDistanceLabelInterval = setInterval(() => {
-        updateARDistanceLabel();
-    }, 500);
-    // update arrow every 250 milliseconds
+    //// update distance every 500 milliseconds
+    //const updateARDistanceLabelInterval = setInterval(() => {
+    //    updateARDistanceLabel();
+    //}, 500);
+    //// update arrow every 250 milliseconds
     const updateARArrowLabelInterval = setInterval(() => {
         updateARArrowLabel();
     }, 250);
