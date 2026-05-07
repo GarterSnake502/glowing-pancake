@@ -16,7 +16,7 @@
         Distance: 0m
     </div>
     <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
-        ↓
+        ↑
     </div>
 </body>
 </html>
@@ -68,10 +68,17 @@
         var pos = g_gps;
         ee("distanceLabel").innerText = (getARDistance(pos.lat, pos.lon, target.lat, target.lon));
     }
+    // get actual north, so arrow is accurate
+    var northOrientation = 0;
+ 
+    window.addEventListener('deviceorientationabsolute', e => {
+        northOrientation = e.alpha;
+    })
     function updateARArrowLabel() {
+        var cameraOffset = -65;
         var pos = g_gps;
         var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
-        var deviceAngle = document.querySelector('a-camera').getAttribute('rotation').y;
+        var deviceAngle = northOrientation + document.querySelector('a-camera').getAttribute('rotation').y + cameraOffset;
         var arrowAngle = objectAngle - deviceAngle;
 
         ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
@@ -81,15 +88,9 @@
         return document.getElementById(id);
     }
    
-
-
-    // test-show rotation on touchscreen click
-    document.addEventListener('click', function () {
-        const rotation = document.querySelector('a-camera').getAttribute('rotation');
-        const message = `Camera rotation: x=${rotation.x}, y=${rotation.y}, z=${rotation.z}`;
-        alert(message);
-    });
+    
 
     // create sample AR point (will be replaced by manhole)
     createARPoint(target.lat, target.lon, target.elev, "green");
+    createARPoint(0, 0.1, 0, "yellow");
 </script>
