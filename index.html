@@ -40,6 +40,11 @@
         ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
     }, 250);
 
+    function cancelLabelUpdates() {
+        clearInterval(updateARDistanceLabelInterval);
+        clearInterval(updateARArrowLabelInterval);
+    }
+
     function createARPoint(lat, lon, elev, col = "red", relativeElevation = false) {
         var newObjects = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="10 10 10"></a-entity>`;
         const scene = document.querySelector('a-scene');
