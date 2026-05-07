@@ -75,7 +75,7 @@
         northOrientation = e.alpha;
     })
     function updateARArrowLabel() {
-        var cameraOffset = -65;
+        var cameraOffset = -70;
         var pos = g_gps;
         var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
         var deviceAngle = northOrientation + document.querySelector('a-camera').getAttribute('rotation').y + cameraOffset;
@@ -88,9 +88,7 @@
         return document.getElementById(id);
     }
    
-    
 
     // create sample AR point (will be replaced by manhole)
     createARPoint(target.lat, target.lon, target.elev, "green");
-    createARPoint(0, 0.1, 0, "yellow");
 </script>
