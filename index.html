@@ -40,17 +40,11 @@
 
     // update distance every 500 milliseconds
     const updateARDistanceLabelInterval = setInterval(() => {
-        var pos = g_gps;
-        updateARDistanceLabel(getARDistance(pos.lat, pos.lon, target.lat, target.lon));
+        updateARDistanceLabel();
     }, 500);
     // update arrow every 250 milliseconds
     const updateARArrowLabelInterval = setInterval(() => {
-        var pos = g_gps;
-        var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
-        var deviceAngle = document.querySelector('a-camera').getAttribute('rotation').y;
-        var arrowAngle = objectAngle - deviceAngle;
-
-        ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
+        updateARArrowLabel();
     }, 250);
 
     function cancelLabelUpdates() {
@@ -70,10 +64,18 @@
         return dist;
     }
 
-    function updateARDistanceLabel(dist) {
-        ee("distanceLabel").innerText = "Distance: " + dist;
+    function updateARDistanceLabel() {
+        var pos = g_gps;
+        ee("distanceLabel").innerText = (getARDistance(pos.lat, pos.lon, target.lat, target.lon));
     }
+    function updateARArrowLabel() {
+        var pos = g_gps;
+        var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
+        var deviceAngle = document.querySelector('a-camera').getAttribute('rotation').y;
+        var arrowAngle = objectAngle - deviceAngle;
 
+        ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
+    }
     // function already possessed by DiamondMaps, delete when merged
     function ee(id) {
         return document.getElementById(id);
