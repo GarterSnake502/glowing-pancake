@@ -16,14 +16,19 @@
 
 <script>
     const pts = [
-        { lat: 39.8519, lon: -86.3945 },
+        { lat: 39.8519, lon: -86.3945, elev: 0 },
         { lat: 40.0, lon: -86.3946 }
     ];
+    var relativeElevation = true; // if false, will measure above sea level (10-20 meters off on phone!)
 
-    var newObjects = '<a-entity material=\'color: green\' geometry=\'primitive: box\' gps-new-entity-place="latitude: 39.851938773575384; longitude: -86.39454408338582" scale="10 10 10"></a-entity>';
-    const scene = document.querySelector('a-scene');
-    scene.insertAdjacentHTML('beforeend', newObjects);
-    
+    // tests procedural adding of objects (will be useful for adding points)
+    for (p of pts) {
+        var newObjects = `<a-entity material=\'color: green\' geometry=\'primitive: box\' ${() ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${p.lat}; longitude: ${p.lon}" position="0 ${p.elev} 0" scale="10 10 10"></a-entity>`;
+        const scene = document.querySelector('a-scene');
+        scene.insertAdjacentHTML('beforeend', newObjects);
+    }
+
+    // test-show rotation on touchscreen click
     document.addEventListener('click', function () {
         const rotation = document.querySelector('a-camera').getAttribute('rotation');
         const message = `Camera rotation: x=${rotation.x}, y=${rotation.y}, z=${rotation.z}`;
