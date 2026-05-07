@@ -84,8 +84,8 @@
     function updateARArrowLabel() {
         var pos = g_gps;
         var objectAngle = getBearing(pos.lat, pos.lon, target.lat, target.lon);
-        var cameraAngle = document.querySelector('a-camera').getAttribute('rotation').y;
-        var arrowAngle = cameraAngle - objectAngle;
+        var cameraAngle = -document.querySelector('a-camera').getAttribute('rotation').y;
+        var arrowAngle = objectAngle - cameraAngle;
 
         ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
     }
