@@ -77,18 +77,43 @@
     // get actual north, so arrow is accurate
     var northOrientation = 0;
  
-    window.addEventListener('deviceorientationabsolute', e => {
-        northOrientation = e.alpha;
-    })
+    //window.addEventListener('deviceorientationabsolute', e => {
+    //    northOrientation = e.alpha;
+    //})
+
     function updateARArrowLabel() {
-        var cameraOffset = -70;
         var pos = g_gps;
-        var objectAngle = Math.atan2(target.lon - pos.lon, target.lat - pos.lat) * (180 / Math.PI);
-        var deviceAngle = northOrientation + document.querySelector('a-camera').getAttribute('rotation').y + cameraOffset;
-        var arrowAngle = objectAngle - deviceAngle;
+        var objectAngle = getBearing(pos.lat, pos.lon, target.lat, target.lon);
+        var cameraAngle = document.querySelector('a-camera').getAttribute('rotation').y;
+        var arrowAngle = cameraAngle - objectAngle;
 
         ee("arrowLabel").style.transform = `rotate(${arrowAngle}deg)`
     }
+
+    // Converts from degrees to radians.
+    function toRadians(degrees) {
+        return degrees * Math.PI / 180;
+    };
+
+    // Converts from radians to degrees.
+    function toDegrees(radians) {
+        return radians * 180 / Math.PI;
+    }
+
+    function getBearing(lat, lng, tlat, tlon) {
+        lat = toRadians(lat);
+        lng = toRadians(lng);
+        tlat = toRadians(tlat);
+        tlon = toRadians(tlon);
+
+        var y = Math.sin(tlon - lng) * Math.cos(tlat);
+        var x = Math.cos(lat) * Math.sin(tlat) -
+            Math.sin(lat) * Math.cos(tlat) * Math.cos(tlon - lng);
+        var brng = Math.atan2(y, x);
+        brng = toDegrees(brng);
+        return (brng + 360) % 360;
+    }
+
     // function already possessed by DiamondMaps, delete when merged
     function ee(id) {
         return document.getElementById(id);
