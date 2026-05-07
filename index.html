@@ -15,6 +15,9 @@
     <div id="distanceLabel" style="position: fixed; top:20px; z-index: 999; color: red; font-size: 20px;">
         Distance: 0m
     </div>
+    <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
+        ↑
+    </div>
 </body>
 </html>
 
@@ -22,10 +25,20 @@
 
     const target = { lat: 39.8519, lon: -86.3945, elev: 0, color: "green" }
 
+    // update distance every 500 milliseconds
     setInterval(() => {
         var pos = getPos();
         updateARDistanceLabel(getARDistance(pos.lat, pos.lon, target.lat, target.lon));
     }, 500);
+    // update arrow every 250 milliseconds
+    setInterval(() => {
+        var pos = getPos();
+        var objectAngle = Math.atan2(target.lon - p.lon, target.lat - p.lat) * (180 / Math.PI);
+        var deviceAngle = document.querySelector('a-camera').getAttribute('rotation').y;
+        var arrowAngle = objectAngle - deviceAngle;
+
+        ee("arrowLabel").transform = `rotate(${arrowAngle}deg)`
+    });
 
     function createARPoint(lat, lon, elev, col = "red", relativeElevation = false) {
         var newObjects = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="10 10 10"></a-entity>`;
@@ -59,7 +72,6 @@
         }
         return { lat: latitude, lon: longitude };
     }
-
 
 
     // test-show rotation on touchscreen click
