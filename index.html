@@ -18,7 +18,7 @@
     <!--<div id="logLabel" style="position: fixed; top:40px; z-index: 999; color: red; font-size: 20px;">
         Log           <- uncomment to get a div for logging messages on mobile
     </div>-->
-    <div id="arrowLabel" style="position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
+    <div id="arrowLabel" style="display: none; position: fixed; top:80%; left:50%; z-index: 999; color: red; font-size: 60px;">
         ↑
     </div>
 </body>
@@ -39,7 +39,9 @@
             lat: pos.coords.latitude,
             lon: pos.coords.longitude
         };
-        updateARDistanceLabel();
+        if (g_gps.lat != null) {
+            updateARDistanceLabel();
+        }
         //ee("logLabel").insertAdjacentText('beforeend', ("Updated position: " + g_gps.lat + "  " + g_gps.lon)); // log changes onscreen (helpful for mobile)
     });
 
@@ -56,7 +58,7 @@
         const scene = document.querySelector('a-scene');
         scene.insertAdjacentHTML('beforeend', newObject);
 
-        return { lat: lat, lon: lon, elev: elev, size: size, col: col, relativeElevation: relativeElevation };
+        return { lat: latitude, lon: longitude, elev: elevation, size: objSize, col: color, relativeElevation: relElevation };
     }
     // ### manage distance label ###
     function getARDistance(lat, lon, plat, plon) {
@@ -71,6 +73,9 @@
     // ###
     // ### manage arrow direction ###
     function updateARArrowLabel() {
+        if (ee("arrowLabel").style.display == "none") {
+            ee("arrowLabel").style.display = "";
+        }
         var pos = g_gps;
         var objectAngle = getBearing(pos.lat, pos.lon, target.lat, target.lon);
         var cameraAngle = -document.querySelector('a-camera').getAttribute('rotation').y;
