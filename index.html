@@ -24,6 +24,17 @@
 <script>
 
     const target = { lat: 39.8519, lon: -86.3945, elev: 0, color: "green" }
+    var currentPos = null;
+
+    // fetch phone GPS--will want to switch to g_gps in final
+    navigator.geolocation.watchPosition(pos => {
+        currentPos = {
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude
+        };
+    }, err => {
+        ee("distanceLabel").innerText = "GPS Unavailable!";
+    });
 
     // update distance every 500 milliseconds
     const updateARDistanceLabelInterval = setInterval(() => {
