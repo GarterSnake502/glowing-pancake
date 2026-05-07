@@ -51,8 +51,8 @@
         }
     }, 250);
     // creates object in <body>, returns its values to store in potential variable (target)
-    function createARPoint(lat, lon, elev, size, col = "red", relativeElevation = true) {
-        var newObject = `<a-entity material=\'color: ${col}\' geometry=\'primitive: box\' ${(relativeElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${lat}; longitude: ${lon}" position="0 ${elev} 0" scale="${size} ${size} ${size}"></a-entity>`;
+    function createARPoint(latitude, longitude, elevevation, objSize, color = "red", relElevation = true) {
+        var newObject = `<a-entity material=\'color: ${color}\' geometry=\'primitive: box\' ${(relElevation) ? "gps-new-entity-place" : "gps-entity-place"}="latitude: ${latitude}; longitude: ${longitude}" position="0 ${elevation} 0" scale="${objSize} ${objSize} ${objSize}"></a-entity>`;
         console.log(newObject);
         const scene = document.querySelector('a-scene');
         scene.insertAdjacentHTML('beforeend', newObject);
